@@ -1,10 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
-import CatsReducer from "./CatsSlice";
+import AuthReducer from "./AuthSlice";
+import SubscriptionReducer from "./SubscriptionSlice";
+import InfoReducer from "./InfoSlice";
 import { logger } from "./logger";
 
 export const store = configureStore({
-  reducer: CatsReducer,
+  reducer: {
+    auth: AuthReducer,
+    subscription: SubscriptionReducer,
+    info: InfoReducer,
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(logger, thunk),
 });

@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
-import { Cat } from "./app/@types.cats";
-import { addCat, minusOne, selectCats } from "./app/CatsSlice";
+import { useNavigate } from "react-router-dom";
+import { selectAuth } from "./app/AuthSlice";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
-import { AppDispatch } from "./app/store";
+import { selectSubscription } from "./app/SubscriptionSlice";
 import AppProvider from "./router/AppProvider";
 
 export default function App() {
-  const store = useAppSelector(selectCats);
+  const selectorAuth = useAppSelector(selectAuth);
+  const selectorSubscription = useAppSelector(selectSubscription);
+
   const dispatch = useAppDispatch();
 
   return <AppProvider />;

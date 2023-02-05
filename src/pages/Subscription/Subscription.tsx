@@ -1,16 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../app/hooks";
+import { chooseSubscription } from "../../app/SubscriptionSlice";
 import styles from "./Subscription.module.scss";
 
 export default function Subscription() {
   const [data, setData] = React.useState([true, false, false]);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleOnChange = (e: number) => {
     setData(data.map((item, index) => (index === e ? true : false)));
   };
 
   const handleNavigate = () => {
+    dispatch(chooseSubscription(data));
     navigate("/personal-info");
   };
 

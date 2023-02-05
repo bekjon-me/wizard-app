@@ -1,15 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../app/hooks";
+import { addInfo } from "../../app/InfoSlice";
 import styles from "./PersonalInfo.module.scss";
 
 export default function PersonalInfo() {
-  //   - First name - required
-  // - Last name - required
-  // - Middle name - optional field
-  // - birthdate - optional
-  // - email - required + check that email is valid
-  // - gender - make/female (select input) - required
-  // - User is older than 18 (checkbox) - required
-
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [middleName, setMiddleName] = React.useState("");
@@ -18,14 +13,15 @@ export default function PersonalInfo() {
   const [gender, setGender] = React.useState("male");
   const [isOlderThan18, setIsOlderThan18] = React.useState(false);
 
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const handleOnChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    console.log(name, value);
-
     switch (name) {
       case "firstName":
         setFirstName(value);
@@ -55,15 +51,19 @@ export default function PersonalInfo() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(
-      firstName,
-      lastName,
-      middleName,
-      birthdate,
-      email,
-      gender,
-      isOlderThan18
+    dispatch(
+      addInfo({
+        firstName,
+        lastName,
+        middleName,
+        birthdate,
+        email,
+        gender,
+        isOlderThan18,
+      })
     );
+
+    navigate("/card-info");
   };
 
   return (
@@ -128,7 +128,6 @@ export default function PersonalInfo() {
         >
           <option value="male">Male</option>
           <option value="female">Female</option>
-          <option value="notChoosen">Don't wanna choose</option>
         </select>
 
         <div className={styles.checkBox}>

@@ -1,6 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.scss";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../app/hooks";
+import { addUser } from "../../app/AuthSlice";
 
 export default function Login() {
   const [data, setData] = React.useState({
@@ -9,12 +11,13 @@ export default function Login() {
     password1: "",
   });
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const { username, password, password1 } = data;
     let regexPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
     e.preventDefault();
-    if (username != username.toLowerCase()) {
+    if (username !== username.toLowerCase()) {
       alert("Username must be in uppercase");
       return;
     }
@@ -32,6 +35,12 @@ export default function Login() {
       return;
     }
 
+    const user = {
+      username: username,
+      password: password,
+    };
+
+    dispatch(addUser(user));
     navigate("/subscription");
   };
 
